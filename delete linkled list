@@ -1,0 +1,83 @@
+class Node:
+    def __init__(self,data):
+        self.data = data
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def append(self,data):
+        new_node = Node(data)
+        if self.head is None:
+            new_node.next = self.head
+            self.head = new_node
+            return
+        last_node = self.head
+        while last_node.next:
+            last_node = last_node.next
+        last_node.next = new_node
+
+
+    def delete_node(self, key):
+        current_node = self.head
+        #if the node to be deleted is the head node
+        if current_node and current_node.data == key:
+            self.head = current_node.next
+            current_node = None
+            return
+
+        prev = None
+        while current_node and current_node.data != key:
+            prev = current_node
+            current_node = current_node.next
+
+        # if the node with the givn key was not found
+
+        if current_node is None:
+            print("Node with the key", key, "not found")
+            return
+
+        # if the node with the given key is found
+        prev.next = current_node.next
+        current_node = None
+
+    def print_list(self):
+        current_node = self.head
+        while current_node:
+            print(current_node.data, "")
+            current_node = current_node.next
+        print()
+
+
+    def delete_first_last(self, key):
+        current_node  = self.head
+        prev = None
+
+        # find the node to delete and its previous node
+
+        while current_node and current_node.data != key:
+            prev = current_node
+            current_node = current_node.next
+
+        # if the node with the given key was not found
+
+        if current_node is None:
+            print("Node with the key", key, "not found")
+            return
+
+        # if the node with the given key is the head node
+
+        if prev is None:
+            self.head = current_node.next
+        else:
+            prev.next = current_node.next
+
+        current_node = None 
+
+l1 = LinkedList()
+l1.append(23)
+l1.append(24)
+l1.append(56)
+l1.delete_node(23)
+l1.print_list()
