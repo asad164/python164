@@ -1,0 +1,50 @@
+class Node:
+    def __init__(self, value):
+        self.value = value
+        self.next = None
+
+
+
+def detect_cycle(head):
+    # Function to detect if there is cycle
+    slow = fast = head
+    while fast and fast.next:
+        slow = slow.next
+        fast = fast.next.next
+
+        if slow == fast:
+            # Cycle detected
+            return True, slow
+    return False, None # No Cycle detected
+
+
+def find_cycle_start(head, meeting_point):
+    slow = head
+    fast = meeting_point
+    while slow != fast:
+        slow = slow.next
+        fast = fast.next
+    return slow # Both pointers meet at the start of the cycle
+
+node1 = Node(1)
+node2 = Node(2)
+node3 = Node(3)
+node4 = Node(4)
+node5 = Node(5)
+
+node1.next = node2
+node2.next = node3
+node3.next = node4
+node4.next = node5
+node5.next = node4
+
+cycle_exists, meeting_point = detect_cycle(node1)
+if cycle_exists:
+    print("Cycle detected")
+    cycle_start = find_cycle_start(node1, meeting_point)
+    print(f"The cycle starts at the node with value:{cycle_start.value}")
+else:
+    print("No Cycle detecte")
+
+
+
