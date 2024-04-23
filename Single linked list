@@ -1,0 +1,188 @@
+class Node:
+    def __init__(self,val):
+        self.data = val
+        self.next = None
+
+    def getData(self):
+        return self.data
+
+    def getNext(self):
+        return self.next
+
+    def setData(self,val):
+        self.data = val
+
+    def setNext(self, val):
+        self.next = val
+
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+
+    def isEmpty(self):
+        """Check if the list is empty"""
+        return self.head is None
+
+
+    def add(self, item):
+        """Add the item to the list"""
+        new_node = Node(item)
+        new_node.setNext(self.head)
+        self.head = new_node
+
+    def size(self):
+        """Return the length/ size of the list"""
+        count = 0
+        current = self.head
+        while current:
+            count += 1
+            current = current.getNext()
+        return  count
+
+
+    def search(self, item):
+        """Search for the item in the list. If found, return True else return false"""
+        current = self.head
+        found = False
+        while current is not None and not found:
+            if current.getData() is item:
+                found = True
+            else:
+                current = current.getNext()
+        return found
+
+
+    def remove(self, item):
+        """Remove an item """
+
+        current = self.head
+        previous  = None
+        found  = False
+        while current is not None and not found:
+            if current.getData() is item:
+                found = True
+            else:
+                previous = current
+                current = current.getNext
+        if found:
+            if previous is None:
+                self.head = current.getNext()
+            else:
+                previous.setNext(current.getNext())
+        else:
+            raise ValueError( 'Value Not Found ')
+
+
+    def insert(self, position, item):
+        """
+        Insert item at postion specified. If postion specified is out of bounds, raise IndexError
+        """
+        if position > self.size() - 1: #    Check if the specified position is out of the current list bounds
+            raise IndexError ("Index out of bounds") #Error Message of the postion is out of bounds
+        current = self.head # Start at the head of the list
+        previous = None # Previous node starts at None
+        pos = 0 # Initialize position counter to zero
+        if position == 0: # If the position is to be at the head (position 0)
+            self.add(item) # if the position is zero, use the add method to insert at the head
+        else: # If it is not
+            new_node = Node(item) # Create a new node
+            while pos < position: # Loop until the desired position is reached
+                pos += 1 # Increment position counter
+                previous = current #Move Previous to the current node
+                current = current.getNext() # Move current node to the next node
+            previous.setNext(new_node) # Set the next of the previous node to the new node
+            new_node.setNext(current) # Set the next of the new node to the current
+
+
+
+    def index(self, item):
+        """
+        Return the index where item is found.
+        if item is not found, return none
+        :param item:
+        :return:
+        """
+        current = self.head # Start at the head of the list.
+        pos = 0 # Initialize the position counter to 0.
+        found = False  # Initialize a flag to indicate if the item has been found.
+        while current is not None and not found: # Continue looping as long as there are nodes and the item hasn't been found.
+            if current.getData() is item: # Check if the data of the current node is the item we're looking for.
+                found = True # If it is, set the 'found' flag to True
+            else:
+                current = current.getNext()  # If not, move to the next node in the list.
+                pos += 1 # Increment the position counter.
+
+
+            if found:  # If found, do nothing (the loop will exit because 'found' is True).
+                pass
+            if not found:
+                pos = None
+            return pos
+
+
+
+    def pop(self, position = None):
+        """
+
+        If no argument is provided, return and remove the item at the head.
+        If position is provided, return and remove the item at that position.
+        If index is out of bounds, raise IndexError
+        """
+
+        if position is not None and position >= self.size(): # Check if the provided position is greater than the size of the list
+
+            raise  IndexError("Index out of bounds")
+        current = self.head # Starts at the head
+        if position is None: # No position specified, remove the head
+            ret = current.getData()
+            self.head = current.getNext()
+        else:
+            pos = 0
+            previous = None
+            while pos < position: # Traverse to the node before the one to be removed
+                previous = current
+                current = current.getNext()
+                pos += 1
+            ret = current.getData() # Data from the node at the specified position
+            previous.setNext(current.getNext()) # Link previous node to the next of current, removing current from the list
+        return ret # Return the removed data
+
+
+    def append(self, item):
+        """
+        Append item to the end of the list
+        :param item:
+        :return:
+        """
+        current = self.head # Start at the head of the list
+        previous = None # Initialize 'previous' as None, to keep track of the last node
+        pos = 0 # Position counter to iterate through the list
+        length = self.size() # Get the total size (length) of the list
+        while pos < length: # Loop through the list to reach the last node
+            previous = current # Keep track of the current node as 'previous' before moving to next
+            current = current.getNext() # Move to the next node
+            pos += 1 # Increment the position counter
+
+        new_node = Node(item) # Create a new node with the item to append
+        if previous is None:# Check if the list was initially empty
+            new_node.setNext(current) # Technically, 'current' should be None here if 'previous' is None
+            self.head = new_node # Set the new node as the head of the list
+        else:
+            previous.setNext(new_node) # Link the last node to the new node
+
+    def print_list(self):
+        current = self.head
+        while current:
+            print(current.getData(), end="->")
+            current = current.getNext()
+
+
+ll = LinkedList()
+ll.add('l')
+ll.add('H')
+ll.insert(1,'e')
+ll.append('l')
+ll.append('o')
+ll.printList()
